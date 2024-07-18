@@ -3,7 +3,7 @@
 /**
  * pall - Prints all the values on the stack fropm the top
  * @stack: Double pointer to stack
- * @line_cnt: Number of lines
+ * @line_cnt: Line number
  */
 void pall(stack_t **stack, unsigned int line_cnt __attribute__((unused)))
 {

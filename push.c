@@ -3,7 +3,7 @@
 /**
  * push - Pushes an element to the stack
  * @stack: Double pointer to the stack
- * @line_cnt: Number of lines
+ * @line_cnt: Line number
  */
 void push(stack_t **stack, unsigned int line_cnt)
 {
