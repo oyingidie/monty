@@ -1,10 +1,14 @@
-#ifndef MONTY_H
-#define MONTY_H
+#ifndef _MONTY_H_
+#define _MONTY_H_
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
+#include <stdarg.h>
 #include <string.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <ctype.h>
 
 /**
@@ -37,64 +41,41 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-#define INSTRUCTIONS { \
-		{"push", push},\
-		{"pall", pall},\
-		{"pint", pint},\
-		{"pop", pop},\
-		{"swap", swap},\
-		{"nop", nop},\
-		{"div", _div},\
-		{"mul", _mul},\
-		{"add", _add},\
-		{"sub", _sub},\
-		{"mod", mod},\
-		{"pchar", pchar},\
-		{"pstr", pstr},\
-		{"rotl", rotl},\
-		{"rotr", rotr},\
-		{NULL, NULL} \
-	}
-
 /**
-* struct help - argument for the current opcode
-* @data_struct: stack mode, stack (default) and queue
-* @argument: the arguments of the string
-*
-* Description: global structure used to pass data around the functions easily
+* struct global_buff - global structure
+* @key: identifier
+* @stream: actual data or buffer content
+* @f: pointer to a file
 */
-typedef struct help
+typedef struct global_buff
 {
-	int data_struct;
-	char *argument;
-} help;
-help global;
+	char *key;
+	char *stream;
+	FILE *f;
+} gBuff;
 
-extern int status;
+extern gBuff b;
 
-void push(stack_t **stack, unsigned int line_cnt);
-void pall(stack_t **stack, unsigned int line_cnt);
-void pint(stack_t **stack, unsigned int line_cnt);
-void swap(stack_t **stack, unsigned int line_cnt);
-void pop(stack_t **stack, unsigned int line_cnt);
-void nop(stack_t **stack, unsigned int line_cnt);
-void _div(stack_t **stack, unsigned int line_cnt);
-void _add(stack_t **stack, unsigned int line_cnt);
-void _sub(stack_t **stack, unsigned int line_cnt);
-void _mul(stack_t **stack, unsigned int line_cnt);
-void mod(stack_t **stack, unsigned int line_cnt);
-void pchar(stack_t **stack, unsigned int line_cnt);
-void pstr(stack_t **stack, unsigned int line_cnt);
-void rotl(stack_t **stack, unsigned int line_count);
-void rotr(stack_t **stack, unsigned int line_count);
-void opcode(stack_t **stack, char *str, unsigned int line_cnt);
+void _push(stack_t **stack, unsigned int line);
+void _pall(stack_t **stack, unsigned int line);
+void _pint(stack_t **stack, unsigned int line);
+void _pop(stack_t **stack, unsigned int line);
+void _swap(stack_t **stack, unsigned int line);
+void _add(stack_t **stack, unsigned int line);
+void _nop(stack_t **stack, unsigned int line);
+void _sub(stack_t **stack, unsigned int line);
+void _div(stack_t **stack, unsigned int line);
+void _mul(stack_t **stack, unsigned int line);
+void _mod(stack_t **stack, unsigned int line);
+void _pchar(stack_t **stack, unsigned int line);
+void _pstr(stack_t **stack, unsigned int line);
+void _rotl(stack_t **stack, unsigned int line);
+void _rotr(stack_t **stack, unsigned int line);
 
-int is_digit(char *string);
-int isnumber(char *str);
-
-stack_t *add_node(stack_t **stack, const int n);
-stack_t *queue_node(stack_t **stack, const int n);
-void free_stack(stack_t *stack);
-size_t print_stack(const stack_t *stack);
+void readFile(char *file);
+void parseFile(char *code, stack_t **stack, unsigned int line);
+int checkFile(char *file);
+void free_all(stack_t *stack);
+void getop(stack_t **stack, unsigned int counter, char *code);
 
 #endif
