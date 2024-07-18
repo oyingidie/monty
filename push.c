@@ -5,7 +5,7 @@
  * @stack: Double pointer to the stack
  * @line_cnt: Number of lines
  */
-void push(stach_t **stack, unsigned int line_cnt)
+void push(stack_t **stack, unsigned int line_cnt)
 {
 	char *n = global.argument;
 
